@@ -7,14 +7,14 @@ const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: [true, "Please provide your first name!"],
-    minLength: [3, "First name must contain at least 3 characters!"],
-    maxLength: [100, "First name cannot exceed 100 characters!"]
+    minLength: [2, "First name must contain at least 2 characters!"],
+    maxLength: [200, "First name cannot exceed 100 characters!"]
   },
   lastName: {
     type: String,
     required: [true, "Please provide your last name!"],
-    minLength: [3, "Last name must contain at least 3 characters!"],
-    maxLength: [100, "Last name cannot exceed 100 characters!"]
+    minLength: [2, "Last name must contain at least 2 characters!"],
+    maxLength: [200, "Last name cannot exceed 100 characters!"]
   },
   mobile: {
     type: String,
@@ -41,7 +41,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide valid role ID!"],
     minLength: [1, "Role ID must contain at least 1 character!"],
-    maxLength: [4, "Role ID cannot exceed 4 characters!"] 
+    maxLength: [10, "Role ID cannot exceed 10 characters!"] 
    },
   role: {
     type: String,

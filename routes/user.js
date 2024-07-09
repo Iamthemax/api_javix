@@ -139,6 +139,116 @@
  *       500:
  *         description: Internal server error
  */
+/**
+ * @swagger
+ * /updateUser:
+ *   post:
+ *     summary: Update user details
+ *     description: Updates the user details based on the role and provided fields.
+ *     tags: 
+ *       - Users
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               firstName:
+ *                 type: string
+ *                 example: John
+ *               lastName:
+ *                 type: string
+ *                 example: Doe
+ *               mobile:
+ *                 type: string
+ *                 example: "1234567890"
+ *               email:
+ *                 type: string
+ *                 example: johndoe@example.com
+ *               roleId:
+ *                 type: number
+ *                 example: 2
+ *               is_active:
+ *                 type: boolean
+ *                 example: true
+ *               is_deleted:
+ *                 type: boolean
+ *                 example: false
+ *               role:
+ *                 type: string
+ *                 example: user
+ *     responses:
+ *       200:
+ *         description: User updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: true
+ *                 message:
+ *                   type: string
+ *                   example: User updated successfully
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     firstName:
+ *                       type: string
+ *                       example: John
+ *                     lastName:
+ *                       type: string
+ *                       example: Doe
+ *                     mobile:
+ *                       type: string
+ *                       example: "1234567890"
+ *                     email:
+ *                       type: string
+ *                       example: johndoe@example.com
+ *                     roleId:
+ *                       type: number
+ *                       example: 2
+ *                     is_active:
+ *                       type: boolean
+ *                       example: true
+ *                     is_deleted:
+ *                       type: boolean
+ *                       example: false
+ *                     role:
+ *                       type: string
+ *                       example: user
+ *       400:
+ *         description: Bad request
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: No params found for updating the user
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 success:
+ *                   type: boolean
+ *                   example: false
+ *                 message:
+ *                   type: string
+ *                   example: Error occurred while updating the user
+ */
+
 const express = require('express');
 const router = express.Router();
 const {verifyToken,checkUserExists,checkUserExistsWithotToken} = require('../service/auth');
