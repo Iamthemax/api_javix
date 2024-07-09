@@ -39,7 +39,8 @@ async function verifyToken(req, res, next) {
     if (!tokenDoc) {
       return apiResponse.unauthorizedResponse(res, 'Invalid or expired token.');
     }
-        req.user = decoded;  // Attach user info to request object
+    let userAgent= await User.findOne({_id:decoded._id})
+        req.user = userAgent;  // Attach user info to request object
         next();
     } catch (error) {
         console.log(error);

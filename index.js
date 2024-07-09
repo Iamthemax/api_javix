@@ -28,7 +28,9 @@ app.use(express.json());
 
 // Routes
 const userRouter = require('./routes/user');
+const ngoRouter = require('./routes/ngo');
 app.use('/api/user', userRouter);
+app.use('/api/ngo', ngoRouter);
 
 // Start server
 app.listen(8001, () => {
