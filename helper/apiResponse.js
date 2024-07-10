@@ -38,6 +38,13 @@ exports.ErrorBadRequestResponseWithData = function (res, msg,data) {
 	};
 	return res.status(400).json(resData);
 };
+exports.ErrorBadRequest = function (res, msg) {
+	var resData = {
+		result: false,
+		message: msg
+		};
+	return res.status(400).json(resData);
+};
 exports.notFoundResponse = function (res, msg) {
 	var resData = {
 		result: false,

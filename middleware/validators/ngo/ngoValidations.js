@@ -240,10 +240,20 @@ const createNgoValidationRules = () => {
         .trim().escape()
     ];
   };
+  const getNgoByIdValidation = () => {
+    return [
+        body('id')
+            .notEmpty().withMessage('Please provide a valid NGO ID')
+            .isLength({ min: 24, max: 24 }).withMessage('NGO ID must be a 24-character hex string')
+            .isHexadecimal().withMessage('NGO ID must be a valid hexadecimal string')
+            .trim().escape()
+    ];
+};
   
 module.exports = 
 { 
   createNgoValidationRules,
   updateNgoValidationRules,
-  validate
+  validate,
+  getNgoByIdValidation
 };

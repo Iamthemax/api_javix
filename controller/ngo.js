@@ -47,6 +47,24 @@ const ALLOW_MULTIPLE_LOGINS = process.env.ALLOW_MULTIPLE_LOGINS;
       return apiResponse.ErrorResponse(res, "Error occurred during API call");
     }
 }
+async function handleGetNgoById(req, res) {
+  try {
+    const id = req.body.id;
+    const ngoData = await NgoModel.findOne({_id:id});
+    if(!ngoData)
+      {
+        return apiResponse.ErrorBadRequest(res, "Ngo not found", ngoData);
+      }
+    if(!ngoData.is_active==true && ngoData.is_deleted==false)
+    {
+      return apiResponse.ErrorBadRequest(res, "Ngo is not active or deleted", ngoData);
+    }
+    return apiResponse.successResponseWithData(res, "Ngo data retrived succefully", ngoData);
+  } catch (error) {
+    console.log(error);
+    return apiResponse.ErrorResponse(res, "Error occurred during API call");
+  }
+}
 
 async function handleCreateNgo(req, res) {
   try {
@@ -166,7 +184,7 @@ async function handleUpdateNgo(req,res)
         // Check if there are fields to update
         if (Object.keys(fieldsToBeUpdated).length > 0) {
           updatedDocument = await NgoModel.findOneAndUpdate(
-            { ngoId: req.params.ngoId }, // Assuming ngoId is part of the URL params
+            { ngoId: req.body.ngoId }, // Assuming ngoId is part of the URL params
             { $set: fieldsToBeUpdated },
             { new: true } // To return the updated document
           );
@@ -192,5 +210,6 @@ module.exports = {
   handleGetAllNgos,
   handleCreateNgo,
   handleDeleteNgo,
-  handleUpdateNgo
+  handleUpdateNgo,
+  handleGetNgoById
 };

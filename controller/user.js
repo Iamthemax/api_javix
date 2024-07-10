@@ -232,6 +232,35 @@ async function handleUpdateUser(req,res)
     return apiResponse.ErrorResponse(res, "Error occured while updating the user ");
   }
 }
+async function handleGetUserById(req, res) {
+  const { id } = req.body;
+  try {
+
+  
+    const user = await User.findOne({ _id:id});
+    if (!user) {
+      return apiResponse.ErrorResponse(res, 'User not found');
+    }
+ // Remove sensitive fields from user object
+ const userWithoutSensitiveInfo = {
+  _id: user._id,
+  firstName: user.firstName,
+  lastName: user.lastName,
+  mobile: user.mobile,
+  email: user.email,
+  roleId: user.roleId,
+  role: user.role,
+  is_active: user.is_active,
+  is_deleted: user.is_deleted,
+  createdAt: user.createdAt,
+  __v: user.__v
+};
+    return apiResponse.successResponseWithData(res, 'User data retrived successful',userWithoutSensitiveInfo);
+  } catch (error) {
+    console.error(error);
+    return apiResponse.ErrorResponse(res, 'Error occurred during API call');
+  }
+}
 
 module.exports = {
   handleGetAllUsers,
@@ -240,5 +269,6 @@ module.exports = {
   handleChangePassword,
   handleLogout,
   handleDeleteUser,
-  handleUpdateUser
+  handleUpdateUser,
+  handleGetUserById
 };

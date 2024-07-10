@@ -1,6 +1,6 @@
 const { body, validationResult } = require('express-validator');
-const apiResponse=require('../helper/apiResponse');
-const User=require('../model/user');
+const apiResponse=require('../../../helper/apiResponse');
+const User=require('../../../model/user');
 const mobileRegex = new RegExp(process.env.MOBILE_REGEX);
 
 // Validation rules for user creation

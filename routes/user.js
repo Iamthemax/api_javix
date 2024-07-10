@@ -259,7 +259,7 @@ const {
     validate,
     changePasswordValidationRules,
     updateUserValidationRules
-  } = require('../middleware/validators');
+  } = require('../middleware/validators/user/userValidators');
 const { handleGetAllUsers,
   handleCreateUser,
   handleLoginUser,
@@ -267,7 +267,9 @@ const { handleGetAllUsers,
   handleLogout,
   handleDeleteUser,
   handleUpdateUser,
+  handleGetUserById,
  } = require('../controller/user');
+const { validateId } = require('../middleware/validators/common');
 
 router.post('/create',verifyToken,createUserValidationRules(),validate,handleCreateUser);
 router.post('/login',loginUserValidationRules(),validate,checkUserExistsWithotToken,handleLoginUser);
@@ -276,4 +278,5 @@ router.post('/chnagePassword',verifyToken,changePasswordValidationRules(),valida
 router.post('/logout',verifyToken,checkUserExists,handleLogout);
 router.post('/deleteUser',verifyToken,checkUserExists,handleDeleteUser);
 router.post('/updateUser',verifyToken,checkUserExists,updateUserValidationRules(),validate,handleUpdateUser);
+router.post('/getUserById',verifyToken,checkUserExists,validateId(),validate,handleGetUserById);
 module.exports = router;

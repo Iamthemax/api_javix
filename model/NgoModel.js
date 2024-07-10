@@ -116,11 +116,11 @@ const ngoSchema = new mongoose.Schema({
         required: false
     },
     is_active: {
-        type: Number,
+        type: Boolean,
         default: true,
     },
     is_deleted: {
-        type: Number,
+        type: Boolean,
         default: false,
     },
     createdAt: {
