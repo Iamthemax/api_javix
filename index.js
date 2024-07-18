@@ -29,8 +29,10 @@ app.use(express.json());
 // Routes
 const userRouter = require('./routes/user');
 const ngoRouter = require('./routes/ngo');
+const screenerRouter = require('./routes/screener');
 app.use('/api/user', userRouter);
 app.use('/api/ngo', ngoRouter);
+app.use('/api/screener', screenerRouter);
 
 // Start server
 app.listen(8001, () => {

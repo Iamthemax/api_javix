@@ -57,7 +57,7 @@ exports.validationErrorWithData = function (res, msg, data) {
 	var resData = {
 		result: false,
 		message: msg,
-		responseData: data
+		validationErrors: data
 	};
 	return res.status(400).json(resData);
 };
