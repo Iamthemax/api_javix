@@ -50,7 +50,7 @@ const ALLOW_MULTIPLE_LOGINS = process.env.ALLOW_MULTIPLE_LOGINS;
 async function handleGetNgoById(req, res) {
   try {
     const id = req.body.id;
-    const ngoData = await NgoModel.findOne({_id:id});
+    const ngoData = await NgoModel.findOne({ngoId:ngoId});
     if(!ngoData)
       {
         return apiResponse.ErrorBadRequest(res, "Ngo not found", ngoData);
@@ -99,14 +99,16 @@ async function handleCreateNgo(req, res) {
       if (existingEmail) {
         return apiResponse.ErrorResponse(res, "NGO already exists with the provided email");
       }
+
+      let ngoIdx=getTextBeforeAt(email);
       // Create new NGO
       const newNgo = new NgoModel({
-        ngoId,
+        ngoId:ngoIdx,
         name,
         owner,
         mobile,
         email,
-        ngoLoginId,
+        ngoLoginId:ngoIdx,
         ngoRegistrationNo,
         dateOfRegistration,
         dateOfOnBoarding,
@@ -131,6 +133,13 @@ async function handleCreateNgo(req, res) {
       console.error(error);
       return apiResponse.ErrorResponse(res, 'Error occurred during API call');
     }
+}
+function getTextBeforeAt(email) {
+  if (typeof email !== 'string') {
+    throw new Error('Input must be a string');
+  }
+  const atIndex = email.indexOf('@');
+  return email.substring(0, atIndex);
 }
 async function handleDeleteNgo(req,res)
 {

@@ -5,6 +5,10 @@ const {
 } = require("express-validator");
 
 const screenerSchema = new mongoose.Schema({
+    screenerId: {
+        type: String,
+        required: [true, 'Screener Id is required']
+    },
     firstName: {
         type: String,
         required: [true, 'First name is required']

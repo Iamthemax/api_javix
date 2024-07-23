@@ -5,11 +5,12 @@ const apiResponse = require('../../../helper/apiResponse');
 const createIssueValidationRules = () => {
   return [
     body('userId')
+      .optional()
       .notEmpty()
-      .isLength({ min: 1, max: 50 })
+      .isLength({ min: 24, max: 24 }).withMessage('User ID must be exactly 24 characters long')
+      .matches(/^[a-fA-F0-9]{24}$/).withMessage('User ID must be a valid 24-digit hexadecimal string')
       .trim()
-      .escape()
-      .withMessage('User ID is required and must be between 1 and 50 characters'),
+      .escape(),
     body('ngoId')
       .optional()
       .isLength({ min: 1, max: 50 })
@@ -24,20 +25,20 @@ const createIssueValidationRules = () => {
       .withMessage('Issue is required and must be between 1 and 200 characters'),
     body('issueDetails')
       .notEmpty()
-      .isLength({ min: 1, max: 2000 })
+      .isLength({ min: 1, max: 4000 })
       .trim()
       .escape()
-      .withMessage('Issue details are required and must be between 1 and 2000 characters'),
+      .withMessage('Issue details are required and must be between 1 and 4000 characters'),
     body('status')
       .isInt({ min: 0, max: 10 })
       .optional()
       .withMessage('Status must be an integer between 0 and 10'),
     body('comments')
       .optional()
-      .isLength({ max: 1000 })
+      .isLength({ max: 4000 })
       .trim()
       .escape()
-      .withMessage('Comments must be less than 1000 characters if provided'),
+      .withMessage('Comments must be less than 4000 characters if provided'),
     body('is_active')
       .optional()
       .isBoolean()
@@ -49,6 +50,15 @@ const createIssueValidationRules = () => {
   ];
 };
 
+
+const deleteIssueValidations =()=> [
+    body('issueNo')
+        .isLength({ min: 23, max: 23 }).withMessage('Issue number must be exactly 23 digits long')
+        .isNumeric().withMessage('Issue number must contain only numeric characters'),
+    body('userId')
+        .isLength({ min: 24, max: 24 }).withMessage('User ID must be exactly 24 characters long')
+        .matches(/^[a-fA-F0-9]{24}$/).withMessage('User ID must be a valid 24-digit hexadecimal string')
+];
 // Validation rules for updating an issue
 const updateIssueValidationRules = () => {
   return [
@@ -59,12 +69,12 @@ const updateIssueValidationRules = () => {
       .escape()
       .withMessage('Issue number must be between 1 and 50 characters'),
     body('userId')
-      .optional()
       .notEmpty()
-      .isLength({ min: 1, max: 50 })
+      .optional()
+      .isLength({ min: 24, max: 24 }).withMessage('User ID must be exactly 24 characters long')
+      .matches(/^[a-fA-F0-9]{24}$/).withMessage('User ID must be a valid 24-digit hexadecimal string')
       .trim()
-      .escape()
-      .withMessage('User ID must be between 1 and 50 characters'),
+      .escape(),
     body('ngoId')
       .optional()
       .isLength({ min: 1, max: 50 })
@@ -81,20 +91,20 @@ const updateIssueValidationRules = () => {
     body('issueDetails')
       .optional()
       .notEmpty()
-      .isLength({ min: 1, max: 2000 })
+      .isLength({ min: 1, max: 4000 })
       .trim()
       .escape()
-      .withMessage('Issue details must be between 1 and 2000 characters'),
+      .withMessage('Issue details must be between 1 and 4000 characters'),
     body('status')
       .optional()
       .isInt({ min: 0, max: 10 })
       .withMessage('Status must be an integer between 0 and 10'),
     body('comments')
       .optional()
-      .isLength({ max: 1000 })
+      .isLength({ max: 4000 })
       .trim()
       .escape()
-      .withMessage('Comments must be less than 1000 characters if provided'),
+      .withMessage('Comments must be less than 4000 characters if provided'),
     body('is_active')
       .optional()
       .isBoolean()
@@ -106,6 +116,15 @@ const updateIssueValidationRules = () => {
   ];
 };
 
+const checkUserIdValidation = () => {
+    return [
+        body('userId')
+            .notEmpty().withMessage('Please provide a valid  ID')
+            .isLength({ min: 24, max: 24 }).withMessage('ID must be a 24-character hex string')
+            .isHexadecimal().withMessage('ID must be a valid hexadecimal string')
+            .trim().escape()
+    ];
+};
 // Middleware to handle validation results
 const validate = (req, res, next) => {
   const errors = validationResult(req);
@@ -118,5 +137,7 @@ const validate = (req, res, next) => {
 module.exports = {
   createIssueValidationRules,
   updateIssueValidationRules,
-  validate
+  deleteIssueValidations,
+  validate,
+  checkUserIdValidation
 };

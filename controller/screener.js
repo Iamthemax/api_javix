@@ -50,9 +50,15 @@ async  function handleCreateScreener(req, res) {
         if (existingEmail) {
             return apiResponse.ErrorResponse(res, "Screener already exists with the provided email");
         }
+        let screenerId=getTextBeforeAt(email);
+        const screenerIdExists = await ScreenerModel.findOne({ screenerId });
+        if (screenerIdExists) {
+          return apiResponse.ErrorResponse(res, "Screener already exists with the provided screener id");
+      }
 
         // Create new screener
         const newScreener = new ScreenerModel({
+            screenerId,
             firstName,
             lastName,
             sex,
@@ -337,6 +343,13 @@ async function handleGetNotMappedScreenersList(req, res) {
       console.log(error);
       return apiResponse.ErrorResponse(res, "Error occurred during API call");
     }
+}
+function getTextBeforeAt(email) {
+  if (typeof email !== 'string') {
+    throw new Error('Input must be a string');
+  }
+  const atIndex = email.indexOf('@');
+  return email.substring(0, atIndex);
 }
 
 module.exports = { 
