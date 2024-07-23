@@ -30,9 +30,11 @@ app.use(express.json());
 const userRouter = require('./routes/user');
 const ngoRouter = require('./routes/ngo');
 const screenerRouter = require('./routes/screener');
+const issueRouter = require('./routes/issue');
 app.use('/api/user', userRouter);
 app.use('/api/ngo', ngoRouter);
 app.use('/api/screener', screenerRouter);
+app.use('/api/issue', issueRouter);
 
 // Start server
 app.listen(8001, () => {
