@@ -13,6 +13,7 @@ async  function handleCreateScreener(req, res) {
     try {
         // Extract screener details from the request body
         const {
+            screenerId,
             firstName,
             lastName,
             sex,
@@ -50,7 +51,7 @@ async  function handleCreateScreener(req, res) {
         if (existingEmail) {
             return apiResponse.ErrorResponse(res, "Screener already exists with the provided email");
         }
-        let screenerId=getTextBeforeAt(email);
+        // let screenerId=getTextBeforeAt(email);
         const screenerIdExists = await ScreenerModel.findOne({ screenerId });
         if (screenerIdExists) {
           return apiResponse.ErrorResponse(res, "Screener already exists with the provided screener id");
@@ -145,10 +146,10 @@ try {
         return apiResponse.unauthorizedResponse(res, "You are not permitted to execute this operation"); 
     }
 
-    const { id } = req.body;
+    const { screenerId } = req.body;
 
     // Find the screener by ID
-    const screener = await ScreenerModel.findById(id);
+    const screener = await ScreenerModel.findOne({screenerId:screenerId});
 
     // Check if the screener is already deleted or inactive
     if (!screener) {
@@ -163,7 +164,7 @@ try {
 
     // Update the screener
     const updatedScreener = await ScreenerModel.findOneAndUpdate(
-      { _id: id },
+      { screenerId: screenerId },
       { $set: { is_deleted: true, is_active: false } },
       { new: true } // To return the updated document
     );
@@ -188,7 +189,7 @@ async function handleUpdateScreener(req, res) {
             updatableFields = ['name', 'owner', 'mobile', 'email', 'is_active', 'is_deleted'];
         }
 
-        const prevScrenner = await ScreenerModel.findOne({ _id: req.body.id });
+        const prevScrenner = await ScreenerModel.findOne({ screenerId: req.body.screenerId });
 
         if(!prevScrenner)
         {
@@ -227,7 +228,7 @@ async function handleUpdateScreener(req, res) {
         // Check if there are fields to update
         if (Object.keys(fieldsToBeUpdated).length > 0) {
             updatedDocument = await ScreenerModel.findOneAndUpdate(
-                { _id: req.body.id }, // Assuming ngoId is part of the URL params
+                { screenerId: req.body.screenerId }, // Assuming ngoId is part of the URL params
                 { $set: fieldsToBeUpdated },
                 { new: true } // To return the updated document
             );
@@ -249,8 +250,8 @@ async function handleUpdateScreener(req, res) {
 }
 async function handleGetScreenerById(req, res) {
     try {
-        const id = req.body.id;
-        const screenerData = await ScreenerModel.findOne({ _id: id });
+        const screenerId = req.body.screenerId;
+        const screenerData = await ScreenerModel.findOne({ screenerId: screenerId });
 
         if (!screenerData) {
             return apiResponse.ErrorBadRequest(res, "Screener not found");

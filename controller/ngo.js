@@ -49,7 +49,7 @@ const ALLOW_MULTIPLE_LOGINS = process.env.ALLOW_MULTIPLE_LOGINS;
 }
 async function handleGetNgoById(req, res) {
   try {
-    const id = req.body.id;
+    const id = req.body.ngoId;
     const ngoData = await NgoModel.findOne({ngoId:ngoId});
     if(!ngoData)
       {
@@ -100,15 +100,16 @@ async function handleCreateNgo(req, res) {
         return apiResponse.ErrorResponse(res, "NGO already exists with the provided email");
       }
 
-      let ngoIdx=getTextBeforeAt(email);
-      // Create new NGO
+     //let ngoIdx=getTextBeforeAt(email);
+     // Create new NGO
+
       const newNgo = new NgoModel({
-        ngoId:ngoIdx,
+        ngoId,
         name,
         owner,
         mobile,
         email,
-        ngoLoginId:ngoIdx,
+        ngoLoginId:ngoId,
         ngoRegistrationNo,
         dateOfRegistration,
         dateOfOnBoarding,

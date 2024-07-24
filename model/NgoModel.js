@@ -104,8 +104,8 @@ const ngoSchema = new mongoose.Schema({
       ngoId: {
         type: String,
         required: [true, "Please provide the NGO ID"],
-        minLength: [1, "NGO ID must not be empty"],   
-      },
+        minLength: [1, "NGO ID must not be empty"],
+        unique: [true, "NGO ID already registered"],      },
       image: {
         type: String,
         required: [true, "Please provide the image"],

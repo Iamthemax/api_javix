@@ -130,7 +130,7 @@ const createNgoValidationRules = () => {
     return [
       body('ngoId')
         .notEmpty().withMessage('Please provide valid Ngo Id')
-        .isLength({ min: 1, max: 100 }).withMessage('Ngo Id must be between 3 and 100 characters')
+        .isLength({ min: 1, max: 100 }).withMessage('Ngo Id must be between 1 and 100 characters')
         .trim().escape(),
       
       body('name')
@@ -242,7 +242,7 @@ const createNgoValidationRules = () => {
   };
   const getNgoByIdValidation = () => {
     return [
-        body('id')
+        body('ngoId')
             .notEmpty().withMessage('Please provide a valid NGO ID')
             .isLength({ min: 24, max: 24 }).withMessage('NGO ID must be a 24-character hex string')
             .isHexadecimal().withMessage('NGO ID must be a valid hexadecimal string')

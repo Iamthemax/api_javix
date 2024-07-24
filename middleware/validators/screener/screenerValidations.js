@@ -70,9 +70,9 @@ const screenerValidationRules = () => {
 };
 const updateScreenerValidationRules = () => {
     return [
-        body('id')
+        body('screenerId')
             .trim().escape()
-            .notEmpty().withMessage('ID is required'),
+            .notEmpty().withMessage('Screener ID is required'),
         body('firstName')
             .optional()
             .trim().escape()
@@ -157,7 +157,18 @@ const updateScreenerValidationRules = () => {
     ];
 };
 
+const checkScreenerIdValidation = () => {
+    return [
+        body('screenerId')
+            .notEmpty().withMessage('Please provide a valid  Screener ID')
+            .isLength({ min: 1, max: 500 }).withMessage('Screener Id should not be empty or grater than 500 characters')
+            .withMessage('Screener Id should be valid string')
+            .trim().escape()
+    ];
+};
+
 module.exports = {
     screenerValidationRules,
     updateScreenerValidationRules,
+    checkScreenerIdValidation
 };

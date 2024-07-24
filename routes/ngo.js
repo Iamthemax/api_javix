@@ -18,7 +18,7 @@ const {
 
 router.post('/',verifyToken,handleGetAllNgos);
 router.post('/create',verifyToken,createNgoValidationRules(),validate,handleCreateNgo);
-router.post('/deleteNgo',verifyToken,handleDeleteNgo);
+router.post('/deleteNgo',verifyToken,getNgoByIdValidation(),validate,handleDeleteNgo);
 router.post('/updateNgo',verifyToken,updateNgoValidationRules(),validate,handleUpdateNgo);
 router.post('/getNgoById',verifyToken,getNgoByIdValidation(),validate,handleGetNgoById);
 module.exports = router;
