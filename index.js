@@ -31,10 +31,12 @@ const userRouter = require('./routes/user');
 const ngoRouter = require('./routes/ngo');
 const screenerRouter = require('./routes/screener');
 const issueRouter = require('./routes/issue');
+const sevikaRouter = require('./routes/sevika');
 app.use('/api/user', userRouter);
 app.use('/api/ngo', ngoRouter);
 app.use('/api/screener', screenerRouter);
 app.use('/api/issue', issueRouter);
+app.use('/api/sevika', sevikaRouter);
 
 // Start server
 app.listen(8001, () => {
